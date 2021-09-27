@@ -34,11 +34,8 @@ public class Gravitation : MonoBehaviour
     {
         var t = Time.fixedDeltaTime;
         transform.position += new Vector3(0, velocity * t + 0.5f * g * t * t);
+        // transform.position += new Vector3(0, velocity * t); // This produces the unity physics _bug, where the Ball gains height in every jump
         velocity += g * t;
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Entered Trigger");
-    }
+    
 }
