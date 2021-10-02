@@ -51,11 +51,12 @@ public class BallPhysics : MonoBehaviour
         Debug.Log("p0 = " +p0);
         Debug.Log("distance = " + distance);
         Debug.Log("v0 = " + v0);
-
+        
         // Use the formula for distance, use P(t)=p0 + v0*t + 0.5gt^2 as P(x,y,z) values and solve for t.
-        var a = (n.x * p0.x + n.y * p0.y + n.z * p0.z + d) / distance;
-        var b = (n.x * v0.x + n.y * v0.y + n.z * v0.z) / distance;
-        var c = (0.5f * n.x * g.x + 0.5f * n.y * g.y + 0.5f * n.z * g.z) / distance;
+        var planeDistanceConstant = (float)Math.Sqrt(n.x * n.x + n.y * n.y + n.z * n.z);
+        var a = (0.5f * n.x * g.x + 0.5f * n.y * g.y + 0.5f * n.z * g.z) / distance / planeDistanceConstant;
+        var b = (n.x * v0.x + n.y * v0.y + n.z * v0.z) / distance / planeDistanceConstant;
+        var c = (n.x * p0.x + n.y * p0.y + n.z * p0.z + d) / distance / planeDistanceConstant;
 
         var D = b * b - 4 * a * c;
         if (D <= 0)
@@ -92,7 +93,6 @@ public class BallPhysics : MonoBehaviour
         if (tColl > Time.fixedDeltaTime)
         {
             Debug.Log("The collision won't happen this frame.");
-            Debug.Log($"tColl: {tColl}; t1: {t1}, t2: {t2}");
             return false; // The collision won't happen this frame.
         }
 
