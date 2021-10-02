@@ -5,19 +5,17 @@ public class BallPhysics : MonoBehaviour
 {
     private Vector3 _velocity = Vector3.zero;
     private readonly Vector3 g = new Vector3(0, -9.81f, 0);
-    public float Radius => _sphereCollider.radius;
+    public float Radius { get; private set; } = 0.5f;
 
 
     #region Unity Variables
 
-    private SphereCollider _sphereCollider;
     private PlanePhysics _plane;
 
     #endregion
 
     private void Awake()
     {
-        _sphereCollider = GetComponent<SphereCollider>();
         _plane = FindObjectOfType<PlanePhysics>();
     }
 
