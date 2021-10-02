@@ -4,8 +4,8 @@ namespace Exercise_2_8
 {
     public class BallPhysics : MonoBehaviour
     {
-        private float velocity = 0;
-        private const float g = -9.81f;
+        private Vector3 _velocity = Vector3.zero;
+        private static readonly Vector3 g = new Vector3(0, -9.81f, 0);
 
         private SphereCollider _sphereCollider;
 
@@ -17,24 +17,29 @@ namespace Exercise_2_8
 
         private void FixedUpdate()
         {
-            ApplyCollision();
+            if (CheckAndApplyCollision())
+            {
+            }
             ApplyGravitation();
         }
 
-        private void ApplyCollision()
+        private bool CheckAndApplyCollision()
         {
             if (transform.position.y - _sphereCollider.radius < 0)
             {
-                velocity = -velocity;
+                _velocity = -_velocity;
+                return true;
             }
+            return false;
         }
 
         private void ApplyGravitation()
         {
             var t = Time.fixedDeltaTime;
-            transform.position += new Vector3(0, velocity * t + 0.5f * g * t * t);
+
+            transform.position += _velocity * t + 0.5f * g * t * t;// new Vector3(0, _velocity * t + 0.5f * g * t * t);
             // transform.position += new Vector3(0, velocity * t); // This produces the unity physics _bug, where the Ball gains height in every jump
-            velocity += g * t;
+            _velocity += g * t;
         }
     
     }
