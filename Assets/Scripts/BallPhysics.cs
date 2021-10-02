@@ -39,24 +39,18 @@ public class BallPhysics : MonoBehaviour
 
     private bool CheckForCollision(PlanePhysics collisionPlane)
     {
-        Debug.Log("Collision Detection START");
+        // Debug.Log("Collision Detection START");
         var n = collisionPlane.Normal;
         var d = collisionPlane.d;
         var p0 = transform.position;
         var distance = Radius;
         var v0 = _velocity;
 
-        Debug.Log("n = " + n);
-        Debug.Log("d = " + d);
-        Debug.Log("p0 = " +p0);
-        Debug.Log("distance = " + distance);
-        Debug.Log("v0 = " + v0);
-        
         // Use the formula for distance, use P(t)=p0 + v0*t + 0.5gt^2 as P(x,y,z) values and solve for t.
         var planeDistanceConstant = (float)Math.Sqrt(n.x * n.x + n.y * n.y + n.z * n.z);
-        var a = (0.5f * n.x * g.x + 0.5f * n.y * g.y + 0.5f * n.z * g.z) / distance / planeDistanceConstant;
-        var b = (n.x * v0.x + n.y * v0.y + n.z * v0.z) / distance / planeDistanceConstant;
-        var c = (n.x * p0.x + n.y * p0.y + n.z * p0.z + d) / distance / planeDistanceConstant;
+        var a = (0.5f * n.x * g.x + 0.5f * n.y * g.y + 0.5f * n.z * g.z) / planeDistanceConstant;
+        var b = (n.x * v0.x + n.y * v0.y + n.z * v0.z) / planeDistanceConstant;
+        var c = (n.x * p0.x + n.y * p0.y + n.z * p0.z + d - distance) / planeDistanceConstant;
 
         var D = b * b - 4 * a * c;
         if (D <= 0)
@@ -86,18 +80,19 @@ public class BallPhysics : MonoBehaviour
         }
         else
         {
-            Debug.Log("Only one collision is in the future, take the only one > 0.");
+            // Debug.Log("Only one collision is in the future, take the only one > 0.");
             tColl = Math.Max(t1, t2); // Only one collision is in the future, take the only one > 0.
         }
 
         if (tColl > Time.fixedDeltaTime)
         {
-            Debug.Log("The collision won't happen this frame.");
+            // Debug.Log("The collision won't happen this frame.");
             return false; // The collision won't happen this frame.
         }
 
         // Now we know there is a collision in this frame at time t0 + t.
-        
+        Debug.Log("COLLISION DETECTED!");
+
         // The velocity and position at the time of the collision:
         var vBeforeColl = v0 + g * tColl;
         var pColl = p0 + v0 * tColl + 0.5f * g * tColl * tColl;
@@ -113,6 +108,18 @@ public class BallPhysics : MonoBehaviour
         // Now move the ball for the remaining time with the new velocity and update the velocity:
         transform.position = newPos;
         _velocity = vNew;
+        
+        Debug.Log("n = " + n);
+        Debug.Log("d = " + d);
+        Debug.Log("distance = " + distance);
+        Debug.Log("p0 = " + p0);
+        Debug.Log("pColl = " + pColl);
+        Debug.Log("newPos = " + newPos);
+        Debug.Log("v0 = " + v0);
+        Debug.Log("vNew = " + vNew);
+        Debug.Log("tColl = " + tColl);
+        Debug.Log("Time.fixedTime = " + Time.fixedTime);
+        Debug.Log("Time.fixedDeltaTime = " + Time.fixedDeltaTime);
 
         return true;
     }
