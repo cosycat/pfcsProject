@@ -39,11 +39,18 @@ public class BallPhysics : MonoBehaviour
 
     private bool CheckForCollision(PlanePhysics collisionPlane)
     {
+        Debug.Log("Collision Detection START");
         var n = collisionPlane.Normal;
         var d = collisionPlane.d;
         var p0 = transform.position;
         var distance = Radius;
         var v0 = _velocity;
+
+        Debug.Log("n = " + n);
+        Debug.Log("d = " + d);
+        Debug.Log("p0 = " +p0);
+        Debug.Log("distance = " + distance);
+        Debug.Log("v0 = " + v0);
 
         // Use the formula for distance, use P(t)=p0 + v0*t + 0.5gt^2 as P(x,y,z) values and solve for t.
         var a = (n.x * p0.x + n.y * p0.y + n.z * p0.z + d) / distance;
@@ -64,28 +71,42 @@ public class BallPhysics : MonoBehaviour
         // TODO also get t3 and t4 with negative distance, to allow to hit the plane from both sides.
 
         // only take the smallest positive t (as this will be the next time it hits in the future)
-        float t;
+        float tColl;
         if (t1 < 0 && t2 < 0)
+        {
+            Debug.Log("Both collisions lie in the past.");
             return false; // Both collisions lie in the past.
-        if (t1 >= 0 && t2 >= 0)
-            t = Math.Min(t1, t2); // Both collisions are in the future, take the first one.
-        else
-            t = Math.Max(t1, t2); // Only one collision is in the future, take the only one > 0;
+        }
 
-        if (t > Time.fixedDeltaTime)
+        if (t1 >= 0 && t2 >= 0)
+        {
+            Debug.Log("Both collisions are in the future, take the first one.");
+            tColl = Math.Min(t1, t2); // Both collisions are in the future, take the first one.
+        }
+        else
+        {
+            Debug.Log("Only one collision is in the future, take the only one > 0.");
+            tColl = Math.Max(t1, t2); // Only one collision is in the future, take the only one > 0.
+        }
+
+        if (tColl > Time.fixedDeltaTime)
+        {
+            Debug.Log("The collision won't happen this frame.");
+            Debug.Log($"tColl: {tColl}; t1: {t1}, t2: {t2}");
             return false; // The collision won't happen this frame.
-        
+        }
+
         // Now we know there is a collision in this frame at time t0 + t.
         
         // The velocity and position at the time of the collision:
-        var vBeforeColl = v0 + g * t;
-        var pColl = p0 + v0 * t + 0.5f * g * t * t;
+        var vBeforeColl = v0 + g * tColl;
+        var pColl = p0 + v0 * tColl + 0.5f * g * tColl * tColl;
         
         // Now mirror the velocity on the plane:
         var vAfterColl = vBeforeColl - 2 * Vector3.Dot(vBeforeColl, n) * n;
         
         // Calculate the new velocity and position at the end of the frame:
-        var tRemaining = Time.fixedDeltaTime - t;
+        var tRemaining = Time.fixedDeltaTime - tColl;
         var newPos = pColl + vAfterColl * tRemaining + 0.5f * g * tRemaining * tRemaining;
         var vNew = vAfterColl + g * tRemaining;
         
