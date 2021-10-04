@@ -1,18 +1,31 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Camera _camera;
+    public Vector3 StartPosition { get; private set; }
+    [SerializeField] private float zoomSpeed = 1f;
+
+    private void Awake()
     {
-        
+        _camera = GetComponent<Camera>();
+        StartPosition = transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnZoom(InputAction.CallbackContext context)
     {
-        
+        var newPos = transform.position;
+        newPos.z += zoomSpeed * context.ReadValue<float>();
+        transform.position = newPos;
     }
+
+    public void OnReset(InputAction.CallbackContext context)
+    {
+        transform.position = StartPosition;
+    }
+    
 }
