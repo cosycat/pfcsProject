@@ -18,6 +18,22 @@
                     "type": "Value",
                     "id": "d88ce67f-9881-4904-b383-ffcff548c8e8",
                     "expectedControlType": "Vector2",
+                    "processors": "InvertVector2",
+                    "interactions": ""
+                },
+                {
+                    "name": "Reset",
+                    "type": "Button",
+                    "id": "caf55ee5-2478-433e-842d-52237c117baf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Zoom",
+                    "type": "Value",
+                    "id": "4c9d6376-70b1-411e-ab42-56518f3043ff",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
                 }
@@ -88,6 +104,28 @@
                     "action": "RotatePlane",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "afefe35b-b8c1-4b1c-bfa7-c1d80bf6cede",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reset",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9342d3ba-22e8-4f34-a729-85e6c37198a4",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

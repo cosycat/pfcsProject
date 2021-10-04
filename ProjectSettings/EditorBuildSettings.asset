@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/SlopedBouncyBall.unity
+    guid: 1caf854eef16b4b78a812bc4633a1f89
   m_configObjects: {}
