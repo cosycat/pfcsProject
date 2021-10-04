@@ -7,6 +7,8 @@ public class BallPhysics : MonoBehaviour
     private readonly Vector3 g = new Vector3(0, -9.81f, 0);
     public float Radius { get; private set; } = 0.5f;
 
+    public float bouncita = 1;
+
 
     #region Unity Variables
 
@@ -105,19 +107,19 @@ public class BallPhysics : MonoBehaviour
         
         // Now move the ball for the remaining time with the new velocity and update the velocity:
         transform.position = newPos;
-        _velocity = vNew;
+        _velocity = vNew * bouncita;
         
-        Debug.Log("n = " + n);
-        Debug.Log("d = " + d);
-        Debug.Log("distance = " + distance);
-        Debug.Log("p0 = " + p0);
-        Debug.Log("pColl = " + pColl);
-        Debug.Log("newPos = " + newPos);
-        Debug.Log("v0 = " + v0);
-        Debug.Log("vNew = " + vNew);
-        Debug.Log("tColl = " + tColl);
-        Debug.Log("Time.fixedTime = " + Time.fixedTime);
-        Debug.Log("Time.fixedDeltaTime = " + Time.fixedDeltaTime);
+        // Debug.Log("n = " + n);
+        // Debug.Log("d = " + d);
+        // Debug.Log("distance = " + distance);
+        // Debug.Log("p0 = " + p0);
+        // Debug.Log("pColl = " + pColl);
+        // Debug.Log("newPos = " + newPos);
+        // Debug.Log("v0 = " + v0);
+        // Debug.Log("vNew = " + vNew);
+        // Debug.Log("tColl = " + tColl);
+        // Debug.Log("Time.fixedTime = " + Time.fixedTime);
+        // Debug.Log("Time.fixedDeltaTime = " + Time.fixedDeltaTime);
 
         return true;
     }
