@@ -28,16 +28,26 @@ namespace Series3
         {
             // var deltaTheta = w * Time.fixedDeltaTime;
             var theta = w * Time.time;
-            var newPosition = new Vector3(radius * Mathf.Cos(theta), transform.position.y, radius * Mathf.Sin(theta));
+            // var newPosition = new Vector3(radius * Mathf.Cos(theta), transform.position.y, radius * Mathf.Sin(theta));
+            
+            var v = GetVelocity();
+            var t = Time.deltaTime;
+            var a = GetAccelerationForPosition();
+            var p0 = transform.position;
+
+            var newPosition = p0 + v * t + 0.5f * a * t * t;
             transform.position = newPosition;
+
+            Debug.Log($"Current Radius: {(transform.position - sun.transform.position).magnitude}");
         }
-
-
-        // private Vector3 GetVelocity()
-        // {
-        //     var aDirection = (sun.transform.position - transform.position).normalized;
-        //     var vDirection = Vector3.OrthoNormalize();
-        // }
+        
+        private Vector3 GetVelocity()
+        {
+            var aDirection = (sun.transform.position - transform.position).normalized;
+            var vDirection = new Vector3(aDirection.z, aDirection.y, -aDirection.x);
+            var vMagnitude = speed;
+            return vDirection * vMagnitude;
+        }
 
         private Vector3 GetAccelerationForPosition()
         {
