@@ -10,6 +10,7 @@ namespace Series3
         [SerializeField] private float radius;
         [SerializeField] private float speed;
         [SerializeField] private GameObject centerObject;
+        [SerializeField] private float selfRotationsPerRotation = 3;
 
 
         private Vector3 v;
@@ -35,10 +36,14 @@ namespace Series3
             // var deltaTheta = w * Time.fixedDeltaTime;
             // var theta = w * Time.time;
             // var newPosition = new Vector3(radius * Mathf.Cos(theta), transform.position.y, radius * Mathf.Sin(theta));
-            _posList.Add(transform.position);
+            _posList.Add(transform.position); // For Debug
+
+            var t = Time.deltaTime;
+
+            var angle = 360 * t / T * selfRotationsPerRotation;
+            transform.Rotate(Vector3.up, angle);
 
             
-            var t = Time.deltaTime;
 
             transform.position += v * t;
             a = Center - transform.position;
