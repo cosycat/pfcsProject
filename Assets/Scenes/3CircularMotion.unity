@@ -249,8 +249,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 10
-  speed: 20
-  sun: {fileID: 1117312625}
+  speed: 10
+  centerObject: {fileID: 1117312625}
 --- !u!135 &643059056
 SphereCollider:
   m_ObjectHideFlags: 0
