@@ -31,9 +31,8 @@ namespace Series3
 
         private void FixedUpdate()
         {
-            
             // var deltaTheta = w * Time.fixedDeltaTime;
-            var theta = w * Time.time;
+            // var theta = w * Time.time;
             // var newPosition = new Vector3(radius * Mathf.Cos(theta), transform.position.y, radius * Mathf.Sin(theta));
             
             var v = GetVelocity();
@@ -69,10 +68,5 @@ namespace Series3
             var aMagnitude = AccelerationMagnitude;
             return aDirection * aMagnitude;
         }
-
-        // private Vector3 GetAccelerationForTime()
-        // {
-        //     var t = Time.time;
-        // }
     }
 }

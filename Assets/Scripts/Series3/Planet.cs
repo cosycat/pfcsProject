@@ -20,7 +20,6 @@ namespace Series3
 
         private float T => 2 * Mathf.PI * radius / speed;
         private float w => 2 * Mathf.PI / T;
-        private float AccelerationMagnitude => speed * speed / radius;
         
         public Vector3 Center => centerObject.transform.position;
 
@@ -33,23 +32,18 @@ namespace Series3
 
         private void FixedUpdate()
         {
-            // var deltaTheta = w * Time.fixedDeltaTime;
-            // var theta = w * Time.time;
-            // var newPosition = new Vector3(radius * Mathf.Cos(theta), transform.position.y, radius * Mathf.Sin(theta));
             _posList.Add(transform.position); // For Debug
 
             var t = Time.deltaTime;
 
+            // Rotation
             var angle = 360 * t / T * selfRotationsPerRotation;
             transform.Rotate(Vector3.up, angle);
-
             
-
+            // Updating the position
             transform.position += v * t;
             a = Center - transform.position;
             v += a * t;
-            // var newPosition = p0 + v * t + 0.5f * a * t * t;
-            // transform.position = newPosition;
 
             Debug.Log($"Current Radius: {(transform.position - Center).magnitude}");
         }
@@ -72,17 +66,6 @@ namespace Series3
             var vMagnitude = speed;
             return vDirection * vMagnitude;
         }
-
-        // private Vector3 GetAccelerationForPosition()
-        // {
-        //     var aDirection = (centerObject.transform.position - transform.position).normalized;
-        //     var aMagnitude = AccelerationMagnitude;
-        //     return aDirection * aMagnitude;
-        // }
-
-        // private Vector3 GetAccelerationForTime()
-        // {
-        //     var t = Time.time;
-        // }
+        
     }
 }
