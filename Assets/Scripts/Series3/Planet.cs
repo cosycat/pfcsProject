@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Series3
@@ -9,10 +10,14 @@ namespace Series3
         [SerializeField] private float radius;
         [SerializeField] private float speed;
         [SerializeField] private GameObject centerObject;
+        [SerializeField] private float selfRotationsPerRotation = 3;
+
 
         private Vector3 v;
         private Vector3 a;
         
+        private readonly List<Vector3> _posList = new List<Vector3>();
+
         private float T => 2 * Mathf.PI * radius / speed;
         private float w => 2 * Mathf.PI / T;
         private float AccelerationMagnitude => speed * speed / radius;
@@ -31,9 +36,14 @@ namespace Series3
             // var deltaTheta = w * Time.fixedDeltaTime;
             // var theta = w * Time.time;
             // var newPosition = new Vector3(radius * Mathf.Cos(theta), transform.position.y, radius * Mathf.Sin(theta));
-            
-            
+            _posList.Add(transform.position); // For Debug
+
             var t = Time.deltaTime;
+
+            var angle = 360 * t / T * selfRotationsPerRotation;
+            transform.Rotate(Vector3.up, angle);
+
+            
 
             transform.position += v * t;
             a = Center - transform.position;
@@ -42,6 +52,17 @@ namespace Series3
             // transform.position = newPosition;
 
             Debug.Log($"Current Radius: {(transform.position - Center).magnitude}");
+        }
+        
+        private void OnDrawGizmos()
+        {
+            Debug.Log("OnDrawGizmos");
+            Gizmos.color = Color.green;
+            _posList.ForEach( pos =>
+            {
+                // Debug.Log($"OnDrawGizmos: {pos}");
+                Gizmos.DrawSphere(pos, 1f);
+            });
         }
         
         private Vector3 GetStartVelocity()
