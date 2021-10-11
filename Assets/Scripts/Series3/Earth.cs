@@ -51,7 +51,7 @@ namespace Series3
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.magenta;
-            posList.ForEach( pos => Gizmos.DrawSphere(pos, 0.1f));
+            posList.ForEach( pos => Gizmos.DrawSphere(pos, 1f));
             
         }
 
