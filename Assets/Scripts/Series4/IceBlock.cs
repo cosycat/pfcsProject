@@ -1,19 +1,21 @@
+using System;
 using UnityEngine;
 
 namespace Series4
 {
     public class IceBlock : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
         
+        private void FixedUpdate()
+        {
+            
         }
 
-        // Update is called once per frame
-        void Update()
+
+        public void PlaneHasRotated(Vector3 center, Vector3 axis1, float angle1, Vector3 axis2, float angle2)
         {
-        
+            transform.RotateAround(center, axis1, angle1);
+            transform.RotateAround(center, axis2, angle2);
         }
     }
 }

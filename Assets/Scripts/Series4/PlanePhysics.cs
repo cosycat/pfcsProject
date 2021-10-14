@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ namespace Series4
 
         private Vector2 _turnMovement;
         [SerializeField] private float turnSpeed = 1f;
+        private readonly List<IceBlock> _iceBlocks = new List<IceBlock>();
 
         #region Unity Variables
 
@@ -22,11 +24,14 @@ namespace Series4
         {
             _meshFilter = gameObject.GetComponent<MeshFilter>();
             _meshRenderer = gameObject.GetComponent<MeshRenderer>();
+            _iceBlocks.AddRange(FindObjectsOfType<IceBlock>());
         }
 
         private void FixedUpdate()
         {
             transform.Rotate(Vector3.forward, _turnMovement.x * turnSpeed);
+            transform.Rotate(Vector3.right, _turnMovement.y * turnSpeed);
+            _iceBlocks.ForEach(iceBlock => iceBlock.PlaneHasRotated(transform.position, Vector3.forward, _turnMovement.x * turnSpeed, Vector3.right, _turnMovement.y * turnSpeed));
         }
 
         public void OnTurn(InputAction.CallbackContext context)
