@@ -31,7 +31,7 @@ namespace Series4
         {
             transform.Rotate(Vector3.forward, _turnMovement.x * turnSpeed);
             transform.Rotate(Vector3.right, _turnMovement.y * turnSpeed);
-            _iceBlocks.ForEach(iceBlock => iceBlock.PlaneHasRotated(transform.position, Vector3.forward, _turnMovement.x * turnSpeed, Vector3.right, _turnMovement.y * turnSpeed));
+            _iceBlocks.ForEach(iceBlock => iceBlock.PlaneHasRotated(transform.position, _turnMovement.x * turnSpeed, _turnMovement.y * turnSpeed));
         }
 
         public void OnTurn(InputAction.CallbackContext context)
