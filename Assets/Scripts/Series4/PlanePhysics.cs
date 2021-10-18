@@ -8,6 +8,7 @@ namespace Series4
     {
         public Vector3 Normal => _meshFilter.transform.TransformDirection(_meshFilter.mesh.normals[0]).normalized;
         public float d { get; private set; } = 0;
+        public Vector3 SteepestDescent => new Vector3(Normal.x / Normal.y, -(Normal.x * Normal.x + Normal.z * Normal.z) / (Normal.y * Normal.y), Normal.z / Normal.y).normalized;
 
         private Vector2 _turnMovement;
         [SerializeField] private float turnSpeed = 1f;

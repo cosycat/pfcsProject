@@ -21,10 +21,7 @@ namespace Series4
 
         private void FixedUpdate()
         {
-            var nx = plane.Normal.x;
-            var ny = plane.Normal.y;
-            var nz = plane.Normal.z;
-            var steepestDescent = new Vector3(nx / ny, -(nx * nx + nz * nz) / (ny * ny), nz / ny).normalized;
+            var steepestDescent = plane.SteepestDescent;
             // Vector3 forceN = plane.Normal * g * mass;
             Vector3 forceG = Vector3.down * g * mass;
             Vector3 forceNet = Vector3.Project(forceG, steepestDescent);
