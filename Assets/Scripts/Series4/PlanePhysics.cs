@@ -31,15 +31,9 @@ namespace Series4
 
         private void FixedUpdate()
         {
-            var angleZ = _turnMovement.x * turnSpeed * Time.fixedDeltaTime;
-            var angleX = angleZ == 0 ? _turnMovement.y * turnSpeed * Time.fixedDeltaTime : 0;
-            if (!(angleZ == 0 && angleX == 0))
-            {
-                transform.Rotate(Vector3.forward, angleZ);
-                transform.Rotate(Vector3.right, angleX);
-                _iceBlocks.ForEach(iceBlock => iceBlock.PlaneHasRotated(transform.position, angleZ, angleX));
-            }
-           
+            transform.RotateAround(transform.position, Vector3.forward, _turnMovement.x * turnSpeed);
+            transform.RotateAround(transform.position, Vector3.right, _turnMovement.y * turnSpeed);
+            _iceBlocks.ForEach(iceBlock => iceBlock.PlaneHasRotated(transform.position, _turnMovement.x * turnSpeed, _turnMovement.y * turnSpeed));
         }
 
         public void OnTurn(InputAction.CallbackContext context)

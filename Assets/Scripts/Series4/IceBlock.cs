@@ -46,10 +46,13 @@ namespace Series4
             transform.RotateAround(center, plane.transform.forward, angleZ);
             transform.RotateAround(center, plane.transform.right, angleX);
 
+            v = Quaternion.Euler(angleX, 0, angleZ) * v;
+            
             // Vector3 distance = center - transform.position;
 
             var angleZRad = angleZ / 360 * 2 * Mathf.PI;
             var angleXRad = angleX / 360 * 2 * Mathf.PI;
+
             // // https://stackoverflow.com/questions/14607640/rotating-a-vector-in-3d-space
             // // rotation around z axis
             // // x cos θ − y sin θ
@@ -71,40 +74,6 @@ namespace Series4
             //     v.y * Mathf.Cos(angleXRad) - v.z * Mathf.Sin(angleXRad),
             //     v.y * Mathf.Sin(angleXRad) + v.z * Mathf.Cos(angleXRad)
             // );
-            //
-            //
-            // https://math.stackexchange.com/questions/511370/how-to-rotate-one-vector-about-another
-            var theta = angleZRad;
-            var a = v;
-            if (a.magnitude != 0)
-            {
-                var b = plane.transform.forward;
-                var a_b = a - (Vector3.Dot(a, b) / Vector3.Dot(b, b)) * b;
-                var w = Vector3.Cross(b, a_b);
-                var x1 = Mathf.Cos(theta) / a_b.magnitude;
-                var x2 = Mathf.Sin(theta) / w.magnitude;
-                var aNew = a_b.magnitude * (x1 * a_b + x2 * w);
-                v = aNew;
-                Debug.Log("a = " + a);
-                Debug.Log("aNew = " + aNew);
-            }
-            
-            
-            
-            // theta = angleXRad;
-            // a = v;
-            // if (a.magnitude != 0)
-            // {
-            //     var b = plane.transform.right;
-            //     var a_b = (v - (Vector3.Dot(v, b) / Vector3.Dot(b, b)) * b);
-            //     var w = Vector3.Cross(b, a_b);
-            //     var x1 = Mathf.Cos(theta) / a_b.magnitude;
-            //     var x2 = Mathf.Sin(theta) / w.magnitude;
-            //     var aNew = a_b.magnitude * (x1 * a_b + x2 * w);
-            //     v = aNew;
-            // }
-            
-
         }
 
         private void OnDrawGizmos()
