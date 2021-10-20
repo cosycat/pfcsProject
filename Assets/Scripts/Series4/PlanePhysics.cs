@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -30,8 +31,8 @@ namespace Series4
 
         private void FixedUpdate()
         {
-            transform.Rotate(Vector3.forward, _turnMovement.x * turnSpeed);
-            transform.Rotate(Vector3.right, _turnMovement.y * turnSpeed);
+            transform.RotateAround(transform.position, Vector3.forward, _turnMovement.x * turnSpeed);
+            transform.RotateAround(transform.position, Vector3.right, _turnMovement.y * turnSpeed);
             _iceBlocks.ForEach(iceBlock => iceBlock.PlaneHasRotated(transform.position, _turnMovement.x * turnSpeed, _turnMovement.y * turnSpeed));
         }
 
@@ -51,6 +52,11 @@ namespace Series4
         public void OnReset(InputAction.CallbackContext context)
         {
             transform.rotation = Quaternion.identity;
+        }
+
+        private void OnDrawGizmos()
+        {
+            // Gizmos.DrawLine(transform.position, SteepestDescent);
         }
     }
 }
