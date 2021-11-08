@@ -73,8 +73,8 @@ namespace Series5
                 // We clipped through the plane. Maybe the plane instead hit us.
                 // Lets just move us exactly onto the plane, but only if we traveled from above.
                 // TODO check if velocity points in the same direction like the normal, and if so, ignore everything.
-                if (false)
-                    return false;
+                // if (false)
+                //     return false;
                 isClipping = true;
             }
 
