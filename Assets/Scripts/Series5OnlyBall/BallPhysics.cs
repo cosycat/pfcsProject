@@ -2,17 +2,28 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Series5
+namespace Series5OnlyBall
 {
     public class BallPhysics : MonoBehaviour
     {
         private Vector3 _velocity = Vector3.zero;
         private readonly Vector3 g = new Vector3(0, -9.81f, 0);
+        //private const float g = 9.81f;
         public float Radius { get; private set; } = 0.5f;
 
         public float bounciness = 1;
 
         private bool _isMoving = false;
+        
+        //Serie 5
+        private float luftReibung = 0.5f;  //Luftreibung
+        private const float C = 0.45f;
+        private const float p = 1.21f; //Luftdichte in kg/m^3
+        private float A = 0f; //Kugelquerschnitt in m^2: Pi*r^2 //TODO richtige Fläche ausrechnen
+        private Vector3 FD; //Luftreibung
+        private float m = 0f; //Masse der Kugel
+        private float dichte = 0f;//Dichte der Kugel in gramm/m^3
+
         public Vector3 StartPosition { get; private set; }
 
         #region Unity Variables
@@ -25,6 +36,9 @@ namespace Series5
         {
             _plane = FindObjectOfType<PlanePhysics>();
             StartPosition = transform.position;
+            A = Mathf.PI * Radius*Radius;
+            dichte = 11.3f;
+            m = dichte * (4f / 3f) * Mathf.PI * (Radius * Radius * Radius);
         }
 
 
@@ -45,8 +59,13 @@ namespace Series5
             {
                 var t = Time.fixedDeltaTime;
                 transform.position += _velocity * t + 0.5f * g * t * t;
-                ;
-                _velocity += g * t;
+                var v = 0f;
+                v += Mathf.Sqrt((2 * m * g.y) / (C * p * A));
+                
+                _velocity += g * t *(Mathf.Sqrt((2 * m * g.y) / (C * p * A)));
+                //_velocity = _velocity * (Mathf.Sqrt((2 * m * g.y) / (C * p * A)));;
+
+                
             }
         }
 

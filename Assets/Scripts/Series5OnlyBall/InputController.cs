@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Series5
+namespace Series5OnlyBall
 {
     public class InputController : MonoBehaviour
     {

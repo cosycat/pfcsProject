@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Series5
+namespace Series5OnlyBall
 {
     public class CameraController : MonoBehaviour
     {
