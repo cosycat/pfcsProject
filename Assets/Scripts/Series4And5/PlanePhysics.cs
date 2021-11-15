@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Series4
+namespace Series4And5
 {
     public class PlanePhysics : MonoBehaviour
     {
@@ -56,7 +56,7 @@ namespace Series4
 
         private void OnDrawGizmos()
         {
-            // Gizmos.DrawLine(transform.position, SteepestDescent);
+            Gizmos.DrawLine(transform.position, SteepestDescent);
         }
     }
 }
