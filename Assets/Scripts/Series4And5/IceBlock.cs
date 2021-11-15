@@ -15,13 +15,16 @@ namespace Series4And5
         private Vector3 v = Vector3.zero;//Vector3.right * 0.5f; // konstant erhöhen
 
         //serie 5: Reibung
-        private const float Muek = 0.01f; //kinetic, Gleitreibungskoeffizient Eisblock auf Eis.
-        private const float Mues = 0; //static
+        private const float Muek = 0.3f; //kinetic, Gleitreibungskoeffizient Eisblock auf Eis.
+        private const float Mues = 0.5f; //static
 
         private float forceFriction = 0;  //Reibungskraft
-        private float gleitReibung = 0;  //Gleitreibung
-        private float haftReibung = 0;  //Haftreibung
-        private float luftReibung = 0;  //Luftreibung
+        private float gleitReibung = 0.5f;  //Gleitreibung
+        private float haftReibung = 0.5f;  //Haftreibung
+        private float luftReibung = 0.5f;  //Luftreibung
+        
+        private Vector3 FH = Vector3.zero;
+        private Vector3 FR = Vector3.zero;
 
         private float Height => transform.localScale.y;
         
@@ -54,9 +57,19 @@ namespace Series4And5
             var steepestDescent = plane.SteepestDescent;
             var FG = mass * g;
             var alpha = 90 - (Math.Abs((Vector3.Angle(-steepestDescent, Vector3.up))));
-            var FH = steepestDescent * FG * Mathf.Sin(alpha); //Hangantriebskraft wird "aufgeblasen" in Richtung von steepestDescent
-            var FN = steepestDescent * FG * Mathf.Cos(alpha); //Normalkraft wird "aufgeblasen" in Richtung von steepestDescent
-            var a = FH / mass; //Beschleunigung
+            alpha = alpha / 360 * 2 * Mathf.PI;
+            FH = steepestDescent * (FG * Mathf.Sin(alpha)); //Hangantriebskraft wird "aufgeblasen" in Richtung von steepestDescent
+            var FN = plane.Normal * FG * Mathf.Cos(alpha); //Normalkraft wird "aufgeblasen" in Richtung von steepestDescent
+
+            FR = -steepestDescent * FN.magnitude * (v == Vector3.zero ? Mues : Muek);
+            var FTotal = FH + FR;
+            if (FR.magnitude > FH.magnitude && v.Equals(Vector3.zero))
+            {
+                FTotal = Vector3.zero;
+            }
+
+
+            var a = FTotal / mass; //Beschleunigung
             var t = Time.fixedDeltaTime;
             var v0 = v;
             transform.position += v0 * t + 0.5f * a * t * t;
@@ -83,7 +96,12 @@ namespace Series4And5
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, v + transform.position);
+            var position = transform.position;
+            Gizmos.DrawLine(position, v + position);
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawLine(position, position + FH);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(position, position + FR);
         }
     }
 }

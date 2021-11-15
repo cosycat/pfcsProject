@@ -7,7 +7,15 @@ namespace Series4And5
 {
     public class PlanePhysics : MonoBehaviour
     {
-        public Vector3 Normal => _meshFilter.transform.TransformDirection(_meshFilter.mesh.normals[0]).normalized;
+        public Vector3 Normal
+        {
+            get
+            {
+                var meshNormal = _meshFilter.mesh.normals[0];
+                return _meshFilter.transform.TransformDirection(meshNormal).normalized;
+            }
+        }
+
         public float d { get; private set; } = 0;
         public Vector3 SteepestDescent => new Vector3(Normal.x / Normal.y, -(Normal.x * Normal.x + Normal.z * Normal.z) / (Normal.y * Normal.y), Normal.z / Normal.y).normalized;
 
@@ -33,7 +41,10 @@ namespace Series4And5
         {
             transform.RotateAround(transform.position, Vector3.forward, _turnMovement.x * turnSpeed);
             transform.RotateAround(transform.position, Vector3.right, _turnMovement.y * turnSpeed);
-            _iceBlocks.ForEach(iceBlock => iceBlock.PlaneHasRotated(transform.position, _turnMovement.x * turnSpeed, _turnMovement.y * turnSpeed));
+            if (!_turnMovement.Equals(Vector2.zero))
+            {
+                _iceBlocks.ForEach(iceBlock => iceBlock.PlaneHasRotated(transform.position, _turnMovement.x * turnSpeed, _turnMovement.y * turnSpeed));
+            }
         }
 
         public void OnTurn(InputAction.CallbackContext context)
@@ -56,7 +67,15 @@ namespace Series4And5
 
         private void OnDrawGizmos()
         {
-            Gizmos.DrawLine(transform.position, SteepestDescent);
+            try
+            {
+                Gizmos.DrawLine(transform.position, SteepestDescent);
+            }
+            catch (Exception e)
+            {
+                
+            }
+
         }
     }
 }
