@@ -17,12 +17,12 @@ namespace Series5OnlyBall
         
         //Serie 5
         private float luftReibung = 0.5f;  //Luftreibung
-        private const float C = 0.45f;
+        private const float C = 4f;//0.45f;
         private const float p = 1.21f; //Luftdichte in kg/m^3
         private float A = 0f; //Kugelquerschnitt in m^2: Pi*r^2 //TODO richtige Fläche ausrechnen
         private Vector3 FD; //Luftreibung
-        private float m = 0f; //Masse der Kugel
-        private float dichte = 0f;//Dichte der Kugel in gramm/m^3
+        private float m = 10; //Masse der Kugel
+        private float dichte = 1f;//Dichte der Kugel in gramm/m^3
 
         public Vector3 StartPosition { get; private set; }
 
@@ -47,6 +47,7 @@ namespace Series5OnlyBall
             Move();
         }
 
+        //Serie 5: Move mit Reibungskräften
         private void Move()
         {
             if (!_isMoving) return;
@@ -58,14 +59,18 @@ namespace Series5OnlyBall
             else
             {
                 var t = Time.fixedDeltaTime;
-                transform.position += _velocity * t + 0.5f * g * t * t;
-                var v = 0f;
-                v += Mathf.Sqrt((2 * m * g.y) / (C * p * A));
-                
-                _velocity += g * t *(Mathf.Sqrt((2 * m * g.y) / (C * p * A)));
-                //_velocity = _velocity * (Mathf.Sqrt((2 * m * g.y) / (C * p * A)));;
-
-                
+                //_velocity += g * t *(Mathf.Sqrt((2 * m * g.y) / (C * p * A)));
+                var Fg = m * g;
+                var Fr = 0.5f * C * p * A * _velocity.magnitude * _velocity.magnitude; //Reibung
+                var FrVector = -Fg.normalized * Fr;
+                var FTotal = Fg - FrVector; //Diese Kraft zieht insgesamt nach unten
+                if (FrVector.magnitude > Fg.magnitude && _velocity.magnitude == 0 )
+                {
+                    FTotal = Vector3.zero;
+                }
+                var a = FTotal / m; //Beschleunigung nach unten
+                transform.position += _velocity * t + 0.5f * a * t * t;
+                _velocity += a * t; //Geschwindigkeit nach unten mit Reibung für die nächste delta-time
             }
         }
 

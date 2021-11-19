@@ -4,27 +4,30 @@ using System.Drawing;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
+//Das ist die Version wo die Erde auf einer perfekten Bahn läuft
 namespace Series3
 {
-    public class Earth : MonoBehaviour
+    public class EarthOld : MonoBehaviour
     {
-
-        [SerializeField] private float radius;
-        [SerializeField] private float speed;
+        
+        [SerializeField] private float radius; //vorgegeben
+        [SerializeField] private float speed; //vorgegeben
         [SerializeField] private GameObject sun;
 
         private Vector3 _velocity;
         
         private float T => 2 * Mathf.PI * radius / speed;
         private float w => 2 * Mathf.PI / T;
-        private float AccelerationMagnitude => speed * speed / radius;
+        private float AccelerationMagnitude => speed * speed / radius; //beschhleunigung
 
-        private List<Vector3> posList = new List<Vector3>();
+        private List<Vector3> posList = new List<Vector3>(); //Liste der Positionen
 
-        public Vector3 Center => sun.transform.position;
+        public Vector3 Center => sun.transform.position; //Das Zentrum ist die Sonne
 
         private void Awake()
         {
+            //Start der Bewegung der Erde.
+            //Berechnung des Vektors vom Sonnenzentrum aus.
             transform.position = new Vector3(sun.transform.position.x + radius, sun.transform.position.y, sun.transform.position.z);
             Debug.Log("T = " + T);
         }
@@ -40,6 +43,7 @@ namespace Series3
             var a = GetAccelerationForPosition();
             var p0 = transform.position;
 
+            //update der neuen Position der Erde und speichern in der PosListe
             var newPosition = p0 + v * t + 0.5f * a * t * t;
             posList.Add(transform.position);
             transform.position = newPosition;
