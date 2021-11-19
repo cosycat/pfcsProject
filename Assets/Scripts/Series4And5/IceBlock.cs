@@ -17,12 +17,10 @@ namespace Series4And5
         //serie 5: Reibung
         private const float Muek = 0.3f; //kinetic, Gleitreibungskoeffizient Eisblock auf Eis.
         private const float Mues = 0.5f; //static
-
         private float forceFriction = 0;  //Reibungskraft
         private float gleitReibung = 0.5f;  //Gleitreibung
         private float haftReibung = 0.5f;  //Haftreibung
         private float luftReibung = 0.5f;  //Luftreibung
-        
         private Vector3 FH = Vector3.zero;
         private Vector3 FR = Vector3.zero;
 
@@ -33,7 +31,7 @@ namespace Series4And5
             plane = FindObjectOfType<PlanePhysics>();
         }
 
-        //für Serie 4
+        //FixedUpdate für Serie 4
         // private void FixedUpdate()
         // {
         //     var steepestDescent = plane.SteepestDescent;
@@ -51,30 +49,30 @@ namespace Series4And5
         //     v += a * t;
         // }
 
-        //für Serie 5
+        //FixedUpdate für Serie 5
         private void FixedUpdate()
         {
             var steepestDescent = plane.SteepestDescent;
             var FG = mass * g;
+            //Neigungswinkel
             var alpha = 90 - (Math.Abs((Vector3.Angle(-steepestDescent, Vector3.up))));
             alpha = alpha / 360 * 2 * Mathf.PI;
+            //Hangantriebskraft aktualisieren
             FH = steepestDescent * (FG * Mathf.Sin(alpha)); //Hangantriebskraft wird "aufgeblasen" in Richtung von steepestDescent
             var FN = plane.Normal * FG * Mathf.Cos(alpha); //Normalkraft wird "aufgeblasen" in Richtung von steepestDescent
-
-            FR = -steepestDescent * FN.magnitude * (v == Vector3.zero ? Mues : Muek);
+            //Reibungskraft aktualisieren
+            FR = -steepestDescent * FN.magnitude * (v == Vector3.zero ? Mues : Muek); //wenn v=0, dann statisches, sonst kinetisches Mü
             var FTotal = FH + FR;
+            //prüfe: wenn FR grösser als FN, soll FTotal auf 0 gesetzt werden ("abbremsen")
             if (FR.magnitude > FH.magnitude && v.Equals(Vector3.zero))
             {
                 FTotal = Vector3.zero;
             }
-
-
-            var a = FTotal / mass; //Beschleunigung
-            var t = Time.fixedDeltaTime;
-            var v0 = v;
-            transform.position += v0 * t + 0.5f * a * t * t;
-            v += a * t;
-            
+            var a = FTotal / mass; //Beschleunigung des IceBlocks
+            var t = Time.fixedDeltaTime; //Zeitabschnitt
+            var v0 = v; //VectorZero
+            transform.position += v0 * t + 0.5f * a * t * t; //IceBlockPosition aktualisiert
+            v += a * t; //aufsummieren der velocity
         }
 
         public void PlaneHasRotated(Vector3 center, float angleZ, float angleX)
