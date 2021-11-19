@@ -342,7 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ba24af4b5c7425098a8dc1798cd3cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bounciness: 1
+  bounciness: 0.2
 --- !u!23 &827471099
 MeshRenderer:
   m_ObjectHideFlags: 0

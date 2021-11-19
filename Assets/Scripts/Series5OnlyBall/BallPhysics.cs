@@ -7,11 +7,12 @@ namespace Series5OnlyBall
     public class BallPhysics : MonoBehaviour
     {
         private Vector3 _velocity = Vector3.zero;
-        private readonly Vector3 g = new Vector3(0, -9.81f, 0);
-        //private const float g = 9.81f;
-        public float Radius { get; private set; } = 0.5f;
+        private readonly Vector3 g = new Vector3(0, -9.81f, 0); //g-Vektor welcher nach unten zeigt
+        public float Radius { get; private set; } = 0.5f; //Radius der Kugel
 
-        public float bounciness = 1;
+        //Der Effekt wie stark der Ball "hüpft"
+        //1: "Trampolin-Effekt", 0.5: "Tennisball-Effekt", 0.2: "Sandkugel-Effekt"
+        [SerializeField] public float bounciness = 0.2f; 
 
         private bool _isMoving = false;
         
