@@ -9,7 +9,7 @@ namespace Series5OnlyBall
         public float d { get; private set; } = 0;
 
         private Vector2 _turnMovement;
-        [SerializeField] private float turnSpeed = 1f;
+        [SerializeField] private float turnSpeed = 1f;//wie schnell sich die Plane dreht
 
         #region Unity Variables
 
@@ -20,17 +20,20 @@ namespace Series5OnlyBall
 
         private void Awake()
         {
+            //Bei Start der App, filter und renderer Compontents werden geholt
             _meshFilter = gameObject.GetComponent<MeshFilter>();
             _meshRenderer = gameObject.GetComponent<MeshRenderer>();
         }
 
         private void FixedUpdate()
         {
+            //Vektor updaten der Ebene, abhängig vom Drehwinkel
             transform.Rotate(Vector3.forward, _turnMovement.x * turnSpeed);
         }
 
         public void OnTurn(InputAction.CallbackContext context)
         {
+            //Steuern der Plane anhand der Pfeiltasten
             switch (context.phase)
             {
                 case InputActionPhase.Started:
