@@ -1,33 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class FederScript : MonoBehaviour
 {
-    public float K;
-    private float initialLength;
+    [FormerlySerializedAs("K")] public float k;
+    private float _initialLength;
     public float weight;
-    private float speed;
+    private float _speed;
     
     // Start is called before the first frame update
     void Start()
     {
-		this.initialLength = this.transform.localScale.y;
+		this._initialLength = this.transform.localScale.y;
     }
 
     // Update is called once per frame
     void Update()
     {
-        var scale = transform.localScale;
-        var position = transform.position;
+        var transform1 = transform;
+        var scale = transform1.localScale;
+        var position = transform1.position;
         
-        var federKraft = K * (initialLength - scale.y);
+        var federKraft = k * (_initialLength - scale.y) ;
         var gewichtsKraft = weight;
         
         var delta = federKraft + gewichtsKraft;
-        speed += delta * Time.fixedDeltaTime * 0.1f; 
+        _speed += delta * Time.fixedDeltaTime * 0.1f; 
         
-        transform.localScale = new Vector3(scale.x, scale.y + speed, scale.z);
-        transform.position = new Vector3(position.x, position.y - speed, position.z);
+        transform1.localScale = new Vector3(scale.x, scale.y + _speed, scale.z);
+        transform1.position = new Vector3(position.x, position.y - _speed, position.z);
     }
 }

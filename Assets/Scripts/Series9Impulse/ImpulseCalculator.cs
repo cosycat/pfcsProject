@@ -8,8 +8,8 @@ using UnityEngine;
 public class ImpulseCalculator : MonoBehaviour
 {
     // Start is called before the first frame update
-    public cubeLeftScript cube1 = FindObjectOfType<cubeLeftScript>();
-    public cubeRightScript cube2 = FindObjectOfType<cubeRightScript>();
+  //  public cubeLeftScript cube1; 
+   // public cubeRightScript cube2;
     
     //cubeLeft
     public float a1; 
@@ -27,6 +27,8 @@ public class ImpulseCalculator : MonoBehaviour
 
     void Start()
     {
+        // cube1  = FindObjectOfType<cubeLeftScript>(); 
+        // cube2  = FindObjectOfType<cubeRightScript>(); 
         a1 = 0.5f;
         m1 = 5f;
         p1Vec = m1 * v1Vec;
