@@ -14,7 +14,7 @@ public class CubeScript : MonoBehaviour
         return velocity * mass;
     }
 
-    // Update is called once per frame
+    // Implementation Impulserhaltungsgesetz
     private void FixedUpdate()
     {
         transform.position += velocity * Time.fixedDeltaTime;
