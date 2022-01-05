@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Implementation Bewegung zweier Scheiben in 2D
 public class DiskScript : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -19,14 +20,14 @@ public class DiskScript : MonoBehaviour
     {
         transform.position += velocity * Time.fixedDeltaTime;
     }
-
+    
+    // Quelle: https://director-online.dasdeck.com/buildArticle.php?id=532
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Trigger");
         if (!calculate)
             return;
         var otherCube = other.gameObject.GetComponent<DiskScript>();
-        // https://director-online.dasdeck.com/buildArticle.php?id=532
         var position = transform.position;
         var x1 = position.x;
         var y1 = position.z;
