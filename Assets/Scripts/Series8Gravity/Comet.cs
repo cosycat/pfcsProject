@@ -5,9 +5,14 @@ namespace Series8Gravity
 {
     public class Comet : MonoBehaviour
     {
-        private const double Scale = 0.0000005;
+        private const double Scale = 0.00005;
         
         [SerializeField] private GameObject earth;
+        [SerializeField] private GameObject atmosphere;
+        [SerializeField] private ParticleSystem fire;
+        [SerializeField] private ParticleSystem explosion;
+        
+        
         private double massEarth = 5.972e24 * Scale; // M in Kg
         private double massComet = 1 * Scale; // m
         private double radiusEarth = 6371000 * Scale; // in Meter
@@ -24,8 +29,8 @@ namespace Series8Gravity
         private void Awake()
         {
             _velocity = CalculateStartVelocity();
-            earth.transform.localScale = new Vector3((float)(radiusEarth * 2), (float)(radiusEarth * 2), (float)(radiusEarth * 2));
-            transform.localScale = new Vector3((float)(radiusComet * 2), (float)(radiusComet * 2), (float)(radiusComet * 2));
+            // earth.transform.localScale = new Vector3((float)(radiusEarth * 2), (float)(radiusEarth * 2), (float)(radiusEarth * 2));
+            // transform.localScale = new Vector3((float)(radiusComet * 2), (float)(radiusComet * 2), (float)(radiusComet * 2));
         }
 
         private static Vector3 CalculateStartVelocity()
@@ -53,6 +58,22 @@ namespace Series8Gravity
             Gizmos.DrawLine(earth.transform.position, this.transform.position);
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(transform.position, transform.position + a * Time.fixedDeltaTime * (float)Scale);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject == atmosphere)
+            {
+                fire.gameObject.transform.rotation = Quaternion.LookRotation(-_velocity);
+                fire.Play();
+            }
+            else if (other.gameObject == earth)
+            {
+                fire.Stop();
+                explosion.Play();
+                explosion.gameObject.transform.parent = null;
+                Destroy(gameObject);
+            }
         }
     }
 }
