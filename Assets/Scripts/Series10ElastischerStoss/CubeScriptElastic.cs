@@ -10,7 +10,7 @@ public class CubeScriptElastic : MonoBehaviour
     public bool calculate;
     
 
-    // Update is called once per frame
+    // Implementation Impulserhaltungs- und Energieerhaltungsgesetz
     private void FixedUpdate()
     {
         transform.position += velocity * Vector3.forward * Time.fixedDeltaTime;
