@@ -23,7 +23,7 @@ public class CubeScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         var otherCube = other.gameObject.GetComponent<CubeScript>();
-        var totalMomentum = Momentum() + otherCube.Momentum();
+        var totalMomentum = Momentum() + otherCube.Momentum(); //Impulserhaltungssatz
         var totalMass = mass + otherCube.mass;
         
         velocity = totalMomentum * (1.0f / totalMass);

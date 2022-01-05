@@ -13,6 +13,11 @@ public class CubeScriptElastic : MonoBehaviour
         return velocity * mass;
     }
 
+    private float Energy()
+    {
+        return 0.5f * velocity.magnitude * velocity.magnitude * mass;
+    }
+
     // Update is called once per frame
     private void FixedUpdate()
     {
@@ -22,10 +27,12 @@ public class CubeScriptElastic : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         var otherCube = other.gameObject.GetComponent<CubeScriptElastic>();
-        var totalMomentum = Momentum() + otherCube.Momentum();
+        var totalMomentum = Momentum() * Energy() + otherCube.Momentum() * otherCube.Energy(); //Impuls- und Energieerhaltungssatz
         var totalMass = mass + otherCube.mass;
         
-        velocity = totalMomentum * (1.0f / totalMass);
+        //(m1 * v1 + m2 * (2 * v2-v1)) / (m1 + m2)
+        velocity = mass * velocity + otherCube.mass * (2 * otherCube.velocity - velocity) / totalMass;
+        //velocity = totalMomentum * (1.0f / totalMass);
         otherCube.velocity = velocity;
     }
 }
