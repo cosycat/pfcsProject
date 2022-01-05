@@ -4,7 +4,7 @@ using System.Drawing;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
-//Das ist die Version wo die Erde auf einer perfekten Bahn läuft
+//Das ist die Version wo die Erde auf einer perfekten Kreisbahn läuft
 namespace Series3
 {
     public class EarthOld : MonoBehaviour

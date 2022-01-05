@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Das ist die Version wo die Erde sich auf einer Ellipse bewegt
-//korrekte Version
+//Implementation gleichförmige Kreisbewegung einer Kugel
 namespace Series3
 {
     public class Planet : MonoBehaviour

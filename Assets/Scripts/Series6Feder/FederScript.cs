@@ -10,13 +10,12 @@ public class FederScript : MonoBehaviour
     public float weight;
     private float _speed;
     
-    // Start is called before the first frame update
     void Start()
     {
 		this._initialLength = this.transform.localScale.y;
     }
 
-    // Update is called once per frame
+    //Implementation Zugkraft einer Feder
     void Update()
     {
         var transform1 = transform;
